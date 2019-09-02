@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Todos from './Todos'
+import AddTodo from './AddTodo'
 
 /**
  * Container component that holds a list of todo's and its operations.
@@ -16,7 +17,6 @@ class App extends Component {
   }
 
   deleteTodo = (id) => {
-    // console.log(id);
 
     //Returns a new list without the item we want to delete:
     const todos = this.state.todos.filter(todo => {
@@ -28,15 +28,33 @@ class App extends Component {
       todos //If key and value are the same, then this is the same as -> todos: todos
     })
 
+  } //...deleteTodo
+
+
+  addTodo = (todo) => {
+
+    //For now we are manually generating a new id for the new item:
+    todo.id = Math.random()
+
+    //Using the spread operator to create a new array with the new TODO item at the end:
+    let todos = [...this.state.todos, todo]
+
+    //Updating the list:
+    this.setState({
+      todos
+    })
   }
 
-  //Here we are passing the todos list as props, as well as other functionalities.
   render() {
     return (
       <div className="todo-app container" >
         <h1 className="center blue-text">Todo's</h1>
 
+        {/* passing the todo list and the deleteTodo function as props: */}
         <Todos todos={this.state.todos} deleteTodo={this.deleteTodo} />
+
+        {/* passing the addTodo as a prop: */}
+        <AddTodo addTodo={this.addTodo} />
 
       </div>
     );
